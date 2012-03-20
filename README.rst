@@ -1,6 +1,7 @@
 `Isotope`_ written in `coffeescript`_ by Jose Soares
 
-.. note: 
+Note
+----
     
     This is simply a rewrite in coffeescript, mostly for me to 
     learn `coffeescript`_. 
