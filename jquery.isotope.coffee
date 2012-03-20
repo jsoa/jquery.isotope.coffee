@@ -1,3 +1,29 @@
+
+#  Isotope written in coffesript
+#  by Jose Soares
+#
+#  This is simply a rewrite in coffeescript, mostly for me to
+#  learn coffeescript.
+#
+#  All original code can be found at
+#  https://github.com/desandro/isotope.
+#
+#  This does not add any new functionality. Most of the original
+#  code comments are in place.
+#
+#  Original license apply
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#  Isotope v1.5.14
+#  An exquisite jQuery plugin for magical layouts
+#  http://isotope.metafizzy.co
+#
+#  Commercial use requires one-time license fee
+#  http://metafizzy.co/#licenses
+#
+#  Copyright 2012 David DeSandro / Metafizzy
+
 (( window, $ ) ->
 
   'use strict'
@@ -1046,6 +1072,6 @@
           instance._init callback
         else
           # initialize new instance
-          $.data( @, 'isotope', new $.Isotope( options, @, callback ))
+          $.data @, 'isotope', new $.Isotope( options, @, callback )
     return @
 )( window, jQuery )

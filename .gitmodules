@@ -1,0 +1,3 @@
+[submodule "src/isotope"]
+	path = src/isotope
+	url = git://github.com/desandro/isotope.git
