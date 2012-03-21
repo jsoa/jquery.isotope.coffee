@@ -15,7 +15,7 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-#  Isotope v1.5.14
+#  Isotope v1.5.16
 #  An exquisite jQuery plugin for magical layouts
 #  http://isotope.metafizzy.co
 #
@@ -527,9 +527,10 @@
         else if Modernizr.csstransitions
           # detect if first item has trasition
           a = 0
-          testElem = @styleQueue[0].$el
+          firstItem = @styleQueue[0]
+          testElem = firstItem and firstItem.$el
           # get first non-empty jQ object
-          while not testElem.length
+          while not testElem or not testElem.length
             styleObj = @styleQueue[ a++ ]
             # HACK: sometimes styleQueue[i] is undefined
             if not styleObj
@@ -625,20 +626,21 @@
     remove : ( $content, callback ) ->
       # remove elements from Isotope instance in callback
       instance = @
+      # remove() as a callback, for after transition / animation
       removeContent = ->
         instance.$allAtoms = instance.$allAtoms.not $content
         $content.remove()
+        callback.call @element if callback
 
       if $content.filter( ':not(.' + @options.hiddenClass + ')' ).length
         # if any non-hidden content needs to be removed
         @styleQueue.push { $el: $content, style: @options.hiddenStyle }
         @$filteredAtoms = @$filteredAtoms.not $content
         @_sort()
-        @reLayout removeContent, callback
+        @reLayout removeContent
       else
         # remove it now
         removeContent()
-        callback.call @element if callback
 
     shuffle : ( callback ) ->
       @updateSortData @$allAtoms

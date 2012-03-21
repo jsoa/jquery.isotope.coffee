@@ -405,7 +405,7 @@
         return this.isLaidOut = true;
       },
       _processStyleQueue: function($elems, callback) {
-        var a, animOpts, callbackFn, callbacks, duration, instance, isCallbackTriggered, objStyleFn, onLayout, processor, styleFn, styleObj, testElem, triggerCallbackNow;
+        var a, animOpts, callbackFn, callbacks, duration, firstItem, instance, isCallbackTriggered, objStyleFn, onLayout, processor, styleFn, styleObj, testElem, triggerCallbackNow;
         styleFn = !this.isLaidOut ? 'css' : (this.isUsingJQueryAnimation ? 'animate' : 'css');
         animOpts = this.options.animationOptions;
         onLayout = this.options.onLayout;
@@ -439,8 +439,9 @@
             triggerCallbackNow = false;
           } else if (Modernizr.csstransitions) {
             a = 0;
-            testElem = this.styleQueue[0].$el;
-            while (!testElem.length) {
+            firstItem = this.styleQueue[0];
+            testElem = firstItem && firstItem.$el;
+            while (!testElem || !testElem.length) {
               styleObj = this.styleQueue[a++];
               if (!styleObj) return;
               testElem = styleObj.$el;
@@ -525,7 +526,8 @@
         instance = this;
         removeContent = function() {
           instance.$allAtoms = instance.$allAtoms.not($content);
-          return $content.remove();
+          $content.remove();
+          if (callback) return callback.call(this.element);
         };
         if ($content.filter(':not(.' + this.options.hiddenClass + ')').length) {
           this.styleQueue.push({
@@ -534,10 +536,9 @@
           });
           this.$filteredAtoms = this.$filteredAtoms.not($content);
           this._sort();
-          return this.reLayout(removeContent, callback);
+          return this.reLayout(removeContent);
         } else {
-          removeContent();
-          if (callback) return callback.call(this.element);
+          return removeContent();
         }
       },
       shuffle: function(callback) {
